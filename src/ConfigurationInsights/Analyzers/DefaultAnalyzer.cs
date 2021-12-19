@@ -21,11 +21,9 @@ namespace ConfigurationInsights.Analyzers
             if (Strings.ContainsSpecialChar(setting.Name, excluded: new[] { '_', '-' }) ||
                 Strings.ContainsWhitespace(setting.Name)) {
                 outcomes.Add(new Outcome(OutcomeType.Warning,
-                    message: $"{quotedName} contains not allowed special characters or whitespace")
-                {
-                    MessageHint = "Aavoid special characters and whitespace in names except '_' and '-'"
-                }
-                    .Log(Options));
+                    message: $"{quotedName} contains not allowed special characters or whitespace") {
+                    MessageHint = "Aavoid special characters and whitespace in names except '_' and '-'" }
+                .Log(Options));
             }
 
             if (string.IsNullOrWhiteSpace(setting.Value)) {

@@ -30,17 +30,17 @@ namespace ConfigurationInsights
         {
         }
 
-            public IEnumerable<SettingOutcome> Analyze(IEnumerable<Setting> settings)
+        public IEnumerable<SettingOutcome> Analyze(IEnumerable<Setting> settings)
         {
             Guard.DisallowNull(nameof(settings), settings);
 
             var result = new List<SettingOutcome>();
 
-            foreach (var setting in settings) {
+            foreach (var setting in settings.OrderBy(x => x.Name)) {
                 var outcomes = new List<Outcome>(capacity:_analyzers.Count() * 3);
                 foreach (var analyzer in _analyzers)
                     outcomes.AddRange(analyzer.Analyze(setting));
-                // No outcomes setting is assumed to be OK
+                // No outcomes, setting is assumed to be OK
                 if (!outcomes.Any()) {
                     var message = $"{setting.Name.Quote()} is OK";
                     outcomes.Add(new Outcome(OutcomeType.Ok, message));
