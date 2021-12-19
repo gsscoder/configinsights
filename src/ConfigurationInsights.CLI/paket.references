@@ -1,0 +1,4 @@
+group main
+    Microsoft.Extensions.Logging.Abstractions
+    SharpX
+    CommandLineParser

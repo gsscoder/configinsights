@@ -1,0 +1,5 @@
+group main
+    //IsExternalInit.System.Runtime.CompilerServices
+    Microsoft.Extensions.Logging.Abstractions
+    SharpX
+    Newtonsoft.Json
