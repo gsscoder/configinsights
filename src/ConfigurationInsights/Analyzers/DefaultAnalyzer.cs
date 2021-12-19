@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
+using SharpX;
 
 namespace ConfigurationInsights.Analyzers
 {
@@ -16,14 +16,24 @@ namespace ConfigurationInsights.Analyzers
         public override IEnumerable<Outcome> Analyze(Setting setting)
         {
             var outcomes = new List<Outcome>();
-
             var quotedName = setting.Name.Quote();
-            if (string.IsNullOrWhiteSpace(setting.Value)) {
-                var message = $"{quotedName} is empty";
-                outcomes.Add(new Outcome(OutcomeType.Warning, message));
-                Logger.LogWarning(message);
+
+            if (Strings.ContainsSpecialChar(setting.Name, excluded: new[] { '_', '-' }) ||
+                Strings.ContainsWhitespace(setting.Name)) {
+                outcomes.Add(new Outcome(OutcomeType.Warning,
+                    message: $"{quotedName} contains not allowed special characters or whitespace")
+                {
+                    MessageHint = "Aavoid special characters and whitespace in names except '_' and '-'"
+                }
+                    .Log(Options));
             }
 
+            if (string.IsNullOrWhiteSpace(setting.Value)) {
+                outcomes.Add(
+                    new Outcome(OutcomeType.Warning, message: $"{quotedName} is empty")
+                    .Log(Options));
+            }
+            
             return outcomes;
         }
     }

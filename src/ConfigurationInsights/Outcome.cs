@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpX;
+﻿using SharpX;
 
 namespace ConfigurationInsights
 {
@@ -28,6 +25,7 @@ namespace ConfigurationInsights
 
             Type = type;
             Message = message;
+            MessageHint = string.Empty;
         }
     }
 }
