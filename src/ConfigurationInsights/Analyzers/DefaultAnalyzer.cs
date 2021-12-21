@@ -5,7 +5,7 @@ namespace ConfigurationInsights.Analyzers
 {
     class DefaultAnalyzer : Analyzer
     {
-        public override string Name { get => "Default"; }
+        public override string Name => "Default analyzer";
 
         public DefaultAnalyzer(AnalyzerOptions options) : base(options)
         {
