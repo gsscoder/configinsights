@@ -21,7 +21,10 @@ namespace ConfigurationInsights
             _logger = options.Logger;
             _canLogOk = options.EnableOkLogging;
             _analyzers = Enumerable.Empty<IAnalyzer>()
-                .Concat(new[] { new DefaultAnalyzer(options) })
+                .Concat(new IAnalyzer[] {
+                    new DefaultAnalyzer(options),
+                    new ConnectionStringAnalyzer(options)
+                })
                 .Concat(analyzers);
         }
 
@@ -39,7 +42,8 @@ namespace ConfigurationInsights
             foreach (var setting in settings.OrderBy(x => x.Name)) {
                 var outcomes = new List<Outcome>(capacity:_analyzers.Count() * 3);
                 foreach (var analyzer in _analyzers)
-                    outcomes.AddRange(analyzer.Analyze(setting));
+                    if (analyzer.CanAnalyze(setting))
+                        outcomes.AddRange(analyzer.Analyze(setting));
                 // No outcomes, setting is assumed to be OK
                 if (!outcomes.Any()) {
                     var message = $"{setting.Name.Quote()} is OK";
