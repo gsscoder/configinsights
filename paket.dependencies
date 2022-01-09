@@ -2,6 +2,7 @@ group main
     source https://api.nuget.org/v3/index.json
     framework: netcoreapp31, net50
     //nuget IsExternalInit.System.Runtime.CompilerServices 1.0.0 
+    //nuget System.Data.Common 4.3.0
     nuget Microsoft.Extensions.Logging.Abstractions 6.0.0
     nuget SharpX 1.1.3
     nuget CommandLineParser 2.8.0
