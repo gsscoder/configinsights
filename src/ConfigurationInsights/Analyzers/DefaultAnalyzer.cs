@@ -26,7 +26,7 @@ namespace ConfigurationInsights.Analyzers
                 .Log(Options));
             }
 
-            if (string.IsNullOrWhiteSpace(setting.Value)) {
+            if (setting.IsEmpty()) {
                 outcomes.Add(
                     new Outcome(OutcomeType.Warning, message: $"{quotedName} is empty")
                     .Log(Options));
