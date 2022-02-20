@@ -23,6 +23,7 @@ namespace ConfigurationInsights
             _analyzers = Enumerable.Empty<IAnalyzer>()
                 .Concat(new IAnalyzer[] {
                     new DefaultAnalyzer(options),
+                    new DataTypeAnalyzer(options),
                     new ConnectionStringAnalyzer(options)
                 })
                 .Concat(analyzers);
