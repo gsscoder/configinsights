@@ -22,7 +22,7 @@ namespace ConfigurationInsights.Analyzers
                 Strings.ContainsWhitespace(setting.Name)) {
                 outcomes.Add(new Outcome(OutcomeType.Warning,
                     message: $"{quotedName} contains not allowed special characters or whitespace") {
-                    MessageHint = "Aavoid special characters and whitespace in names except '_' and '-'" }
+                    MessageHint = "Avoid special characters and whitespace in names except '_' and '-'" }
                 .Log(Options));
             }
 
