@@ -22,22 +22,22 @@ class Logger : ILogger
         var message = formatter(state, exception);
         switch (logLevel) {
             default:
-                Console.WriteLine(message);
+                ConsoleEx.WriteLine(ConsoleColor.Green, $"[TRC]: {message}");
                 break;
             case LogLevel.Debug:
-                Console.WriteLine(message);
+                ConsoleEx.WriteLine(ConsoleColor.Green, $"[DBG]: {message}");
                 break;
             case LogLevel.Information:
-                Console.WriteLine(message);
+                ConsoleEx.WriteLine(ConsoleColor.Blue, message);
                 break;
             case LogLevel.Warning:
-                ConsoleEx.WriteErrorLine(ConsoleColor.Yellow, $"[WRN]: {message}");
+                ConsoleEx.WriteLine(ConsoleColor.Yellow, $"[WRN]: {message}");
                 break;
             case LogLevel.Error:
                 ConsoleEx.WriteErrorLine(ConsoleColor.Red, $"[ERR]: {message}");
                 break;
             case LogLevel.Critical:
-                ConsoleEx.WriteErrorLine(ConsoleColor.Red, $"[CRITICAL]: {message}");
+                ConsoleEx.WriteErrorLine(ConsoleColor.White, $"[CRITICAL]: {message}");
                 break;
         }
     }
