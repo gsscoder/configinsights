@@ -14,5 +14,10 @@
   <ItemGroup>
     <None Remove="C:\Users\Coder\.nuget\packages\fsharp.core\6.0.1\contentFiles\any\netstandard2.1\FSharp.Core.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>$(MSBuildProjectName).Specs</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>  
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
