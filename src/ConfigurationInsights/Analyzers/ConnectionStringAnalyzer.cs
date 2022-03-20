@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using SharpX;
 using SharpX.Extensions;
 
 namespace ConfigurationInsights.Analyzers
@@ -10,6 +11,7 @@ namespace ConfigurationInsights.Analyzers
     public class ConnectionStringAnalyzer : Analyzer
     {
         bool _known;
+        readonly ILogger _logger;
 
         IEnumerable<string> _knownPrefixes = new[] {
             "SQLCONNSTR_",
@@ -26,27 +28,33 @@ namespace ConfigurationInsights.Analyzers
             "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING"
         };
 
+        IEnumerable<string> _knownPwdParamNames = new[] {
+            "password",
+            "key"
+        };
+
         public override string Name => "Connection string analyzer";
 
         public ConnectionStringAnalyzer(AnalyzerOptions options) : base(options)
         {
+            _logger = options.Logger;
         }
 
         public override bool CanAnalyze(Setting setting)
         {
             if (_knownPrefixes.Any(n => setting.Name.StartsWithIgnoreCase(n))) {
-                Options.Logger.LogTrace("Known prefix found");
+                _logger.LogTrace("Known prefix found");
                 _known = true;
                 return true;
             }
             if (_knownNames.Any(n => setting.Name.EqualsIgnoreCase(n))) {
-                Options.Logger.LogTrace("Known name found");
+                _logger.LogTrace("Known name found");
                 _known = true;
                 return true;
             }
             if (setting.Name.ContainsIgnoreCase("connection") &&
                 setting.Name.ContainsIgnoreCase("string")) {
-                Options.Logger.LogTrace("Possile connection string found");
+                _logger.LogTrace("Possile connection string found");
                 return true;
             }
             return false;
@@ -54,8 +62,9 @@ namespace ConfigurationInsights.Analyzers
 
         public override IEnumerable<Outcome> Analyze(Setting setting)
         {
+            DbConnectionStringBuilder connStr = null;
             try {
-                var connStr = new DbConnectionStringBuilder {
+                connStr = new DbConnectionStringBuilder {
                     ConnectionString = setting.Value
                 };
             }
@@ -66,7 +75,32 @@ namespace ConfigurationInsights.Analyzers
                     return new[] { outcome.Log(Options) };
                 }
             }
+            if (FindParameter().MatchJust(out var paramName)) {
+                _logger.LogTrace($"Found password parameter: {paramName}");
+                var password = (string)connStr[paramName];
+                var strength = PasswordUtil.Measure(password);
+                var outcome = strength switch {
+                    var s when
+                        s == PasswordStrength.VeryWeak ||
+                        s == PasswordStrength.Weak => new Outcome(
+                            OutcomeType.Error, message: $"{setting.Name.Quote()} {password} parameter contains a weak password"),
+                    _ => new Outcome(
+                        OutcomeType.Error, message: $"{setting.Name.Quote()} {password} parameter password strength should be improved")
+                };
+                return new[] { outcome.Log(Options) };
+            }
             return Enumerable.Empty<Outcome>();
+
+            Maybe<string> FindParameter()
+            {
+                foreach (string key in connStr.Keys) {
+                    foreach (var paramName in _knownPwdParamNames) {
+                        if (key.StartsWithIgnoreCase(paramName))
+                            return key.ToJust();
+                    }
+                }
+                return Maybe.Nothing<string>();
+            }
         }
     }
 }
