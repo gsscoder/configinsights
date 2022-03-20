@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using SharpX.Extensions;
 
 namespace ConfigurationInsights.Analyzers
 {
@@ -25,13 +26,13 @@ namespace ConfigurationInsights.Analyzers
 
         public override bool CanAnalyze(Setting setting)
         {
-            if (_knownNames.Contains(setting.LowerName())) {
+            if (_knownNames.Any(n => setting.Name.EqualsIgnoreCase(n))) {
                 Options.Logger.LogTrace("Known name found");
                 _known = true;
                 return true;
             }
-            if (setting.LowerName().Contains("connection") &&
-                setting.LowerName().Contains("string")) {
+            if (setting.Name.ContainsIgnoreCase("connection") &&
+                setting.Name.ContainsIgnoreCase("string")) {
                 Options.Logger.LogTrace("Possile connection string found");
                 return true;
             }

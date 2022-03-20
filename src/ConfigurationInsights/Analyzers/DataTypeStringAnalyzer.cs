@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using SharpX;
+using SharpX.Extensions;
 
 namespace ConfigurationInsights.Analyzers
 {
@@ -39,14 +40,14 @@ namespace ConfigurationInsights.Analyzers
         public override bool CanAnalyze(Setting setting)
         {
             _check = _checks.SingleOrNothing(
-                c => c.NameMatch == MatchType.Equals && setting.LowerName() == c.Name);
+                c => c.NameMatch == MatchType.Equals && setting.Name.ContainsIgnoreCase(c.Name));
             switch (_check.Tag) {
                 default:
                     Options.Logger.LogTrace("Known name found");
                     return true;
                 case MaybeType.Nothing:
                     _check = _checks.SingleOrNothing(
-                        c => c.NameMatch == MatchType.Contains && setting.LowerName().Contains(c.Name));
+                        c => c.NameMatch == MatchType.Contains && setting.Name.ContainsIgnoreCase(c.Name));
                     if (_check.IsJust()) {
                         Options.Logger.LogTrace("Possible name with semantic match found");
                         return true;

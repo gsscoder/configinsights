@@ -4,7 +4,7 @@ group main
     //nuget IsExternalInit.System.Runtime.CompilerServices 1.0.0 
     //nuget System.Data.Common 4.3.0
     nuget Microsoft.Extensions.Logging.Abstractions 6.0.0
-    nuget SharpX 1.1.6
+    nuget SharpX 1.1.10
     nuget CommandLineParser 2.8.0
     nuget Newtonsoft.Json 13.0.1
 
@@ -16,4 +16,4 @@ group specs
     nuget xunit 2.4.1
     nuget xunit.runner.visualstudio 2.4.3
     nuget FluentAssertions 6.2.0
-    nuget SharpX 1.1.6
+    nuget SharpX 1.1.10
