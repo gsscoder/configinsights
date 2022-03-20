@@ -28,4 +28,9 @@ $ configchk --version
 
 ## Usage
 
+```
+$ az login
+$ az webapp config appsettings list -g YOUR_RES_GROUP -n YOUR_APP_SERVICE | configchk
+```
+
 ![configchk output](/assets/configchk-out.png)
