@@ -11,11 +11,19 @@ namespace ConfigurationInsights.Analyzers
     {
         bool _known;
 
-        string[] _knownNames = new[] {
-            "applicationinsights_connection_string",
-            "azurewebjobsdashboard",
-            "azurewebjobsstorage",
-            "website_contentazurefileconnectionstring"
+        IEnumerable<string> _knownPrefixes = new[] {
+            "SQLCONNSTR_",
+            "MYSQLCONNSTR_",
+            "SQLAZURECONNSTR_",
+            "CUSTOMCONNSTR_",
+            "POSTGRESQLCONNSTR_"
+        };
+
+        IEnumerable<string> _knownNames = new[] {
+            "APPLICATIONINSIGHTS_CONNECTION_STRING",
+            "AzureWebJobsDashboard",
+            "AzureWebJobsStorage",
+            "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING"
         };
 
         public override string Name => "Connection string analyzer";
@@ -26,6 +34,11 @@ namespace ConfigurationInsights.Analyzers
 
         public override bool CanAnalyze(Setting setting)
         {
+            if (_knownPrefixes.Any(n => setting.Name.StartsWithIgnoreCase(n))) {
+                Options.Logger.LogTrace("Known prefix found");
+                _known = true;
+                return true;
+            }
             if (_knownNames.Any(n => setting.Name.EqualsIgnoreCase(n))) {
                 Options.Logger.LogTrace("Known name found");
                 _known = true;
