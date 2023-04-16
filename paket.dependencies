@@ -1,6 +1,6 @@
 group main
     source https://api.nuget.org/v3/index.json
-    framework: netcoreapp31, net50
+    framework: net60
     //nuget IsExternalInit.System.Runtime.CompilerServices 1.0.0 
     //nuget System.Data.Common 4.3.0
     nuget Microsoft.Extensions.Logging.Abstractions 6.0.0
@@ -10,7 +10,7 @@ group main
 
 group specs
     source https://www.nuget.org/api/v2
-    framework: net50
+    framework: net60
     nuget Microsoft.NET.Test.Sdk 17.0.0
     nuget coverlet.collector 3.1.0
     nuget xunit 2.4.1
