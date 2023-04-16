@@ -3,17 +3,17 @@ group main
     framework: net60
     //nuget IsExternalInit.System.Runtime.CompilerServices 1.0.0 
     //nuget System.Data.Common 4.3.0
-    nuget Microsoft.Extensions.Logging.Abstractions 6.0.0
-    nuget SharpX 1.1.11
-    nuget CommandLineParser 2.8.0
-    nuget Newtonsoft.Json 13.0.1
+    nuget Microsoft.Extensions.Logging.Abstractions 6.0.3
+    nuget SharpX 6.0.2
+    nuget CommandLineParser 2.9.1
+    nuget Newtonsoft.Json 13.0.3
 
 group specs
     source https://www.nuget.org/api/v2
     framework: net60
-    nuget Microsoft.NET.Test.Sdk 17.0.0
-    nuget coverlet.collector 3.1.0
-    nuget xunit 2.4.1
-    nuget xunit.runner.visualstudio 2.4.3
-    nuget FluentAssertions 6.2.0
-    nuget SharpX 1.1.11
+    nuget Microsoft.NET.Test.Sdk 17.5.0
+    nuget coverlet.collector 3.2.0
+    nuget xunit 2.4.2
+    nuget xunit.runner.visualstudio 2.4.5
+    nuget FluentAssertions 6.10.0
+    nuget SharpX 6.0.2
