@@ -15,3 +15,4 @@ artifacts/
 *DS_Store
 *.sln.ide
 authfile
+src/**/Properties/

@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "ConfigurationInsights.CLI": {
-      "commandName": "Project",
-      "commandLineArgs": "\\temp\\funcapp_appsettings.json"
-    }
-  }
-}

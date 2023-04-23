@@ -14,21 +14,21 @@ namespace ConfigurationInsights.Analyzers
         {
             public string Name { get; set; }
             public MatchType NameMatch { get; set;}
-            public Type ValueType { get; set;}
+            public Func<string, bool> Converter { get; set;}
         }
 
         Maybe<Check> _check;
         readonly IEnumerable<Check> _checks = new Check[]
             {
-                new Check { Name = "appinsights_instrumentationkey", NameMatch = MatchType.Equals, ValueType = typeof(Guid) },
-                new Check { Name = "tenantid", NameMatch = MatchType.Contains, ValueType = typeof(Guid) },
-                new Check { Name = "tenant_id", NameMatch = MatchType.Contains, ValueType = typeof(Guid) },
-                new Check { Name = "applicationid", NameMatch = MatchType.Contains, ValueType = typeof(Guid) },
-                new Check { Name = "application_id", NameMatch = MatchType.Contains, ValueType = typeof(Guid) },
-                new Check { Name = "clientid", NameMatch = MatchType.Contains, ValueType = typeof(Guid) },
-                new Check { Name = "client_id", NameMatch = MatchType.Contains, ValueType = typeof(Guid) },
-                new Check { Name = "appclientid", NameMatch = MatchType.Contains, ValueType = typeof(Guid) },
-                new Check { Name = "appclient_id", NameMatch = MatchType.Contains, ValueType = typeof(Guid) },
+                new Check { Name = "appinsights_instrumentationkey", NameMatch = MatchType.Equals, Converter = x => Guid.TryParse(x, out _) },
+                new Check { Name = "tenantid", NameMatch = MatchType.Contains, Converter = x => Guid.TryParse(x, out _) },
+                new Check { Name = "tenant_id", NameMatch = MatchType.Contains, Converter = x => Guid.TryParse(x, out _) },
+                new Check { Name = "applicationid", NameMatch = MatchType.Contains, Converter = x => Guid.TryParse(x, out _) },
+                new Check { Name = "application_id", NameMatch = MatchType.Contains, Converter = x => Guid.TryParse(x, out _) },
+                new Check { Name = "clientid", NameMatch = MatchType.Contains, Converter = x => Guid.TryParse(x, out _) },
+                new Check { Name = "client_id", NameMatch = MatchType.Contains, Converter = x => Guid.TryParse(x, out _) },
+                new Check { Name = "appclientid", NameMatch = MatchType.Contains, Converter = x => Guid.TryParse(x, out _) },
+                new Check { Name = "appclient_id", NameMatch = MatchType.Contains, Converter = x => Guid.TryParse(x, out _) },
             };
         
         public override string Name => "Connection string analyzer";
@@ -59,13 +59,7 @@ namespace ConfigurationInsights.Analyzers
 
         public override IEnumerable<Outcome> Analyze(Setting setting)
         {
-            bool valid = true;
-            try {
-                _ = Convert.ChangeType(setting.Value, _check.FromJust().ValueType);
-            }
-            catch (InvalidCastException) {
-                valid = false;
-            }
+            var valid = _check.FromJust().Converter(setting.Value);
             if (!valid) {
                 var outcome = _check.FromJust().NameMatch switch {
                     MatchType.Equals => new Outcome(
