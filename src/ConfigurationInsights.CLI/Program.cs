@@ -55,9 +55,13 @@ class Program
                 Logger = _logger,
                 EnableOkLogging = true,
                 EnableHintLogging = true });
-        _ = analyzer.Analyze(settings);
+        var result = analyzer.Analyze(settings);
 
-        return ExitCodes.ExitOk;
+        var hasError = result.SelectMany(x => x.Outcomes).Any(x => x.HasError());
+
+        return hasError
+            ? Fail("Analysis completed with errors")
+            : ExitCodes.ExitOk;
     }
 
     static int Fail()

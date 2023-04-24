@@ -2,9 +2,9 @@
 using ConfigurationInsights;
 using Microsoft.Extensions.Logging;
 
-static class OutcomeExtensions
+public static class OutcomeExtensions
 {
-    public static Outcome Log(this Outcome outcome, AnalyzerOptions options)
+    internal static Outcome Log(this Outcome outcome, AnalyzerOptions options)
     {
         if (outcome.Kind == OutcomeType.Ok && !options.EnableOkLogging)
             return outcome;
@@ -25,5 +25,10 @@ static class OutcomeExtensions
         if (options.EnableHintLogging && !string.IsNullOrWhiteSpace(outcome.MessageHint))
             options.Logger.LogInformation($"[HINT] {outcome.MessageHint}");
         return outcome;
+    }
+
+    public static bool HasError(this Outcome outcome)
+    {
+        return !(outcome.Kind == OutcomeType.Ok || outcome.Kind == OutcomeType.Warning);
     }
 }
