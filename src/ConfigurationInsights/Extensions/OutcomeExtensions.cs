@@ -6,9 +6,9 @@ static class OutcomeExtensions
 {
     public static Outcome Log(this Outcome outcome, AnalyzerOptions options)
     {
-        if (outcome.Type == OutcomeType.Ok && !options.EnableOkLogging)
+        if (outcome.Kind == OutcomeType.Ok && !options.EnableOkLogging)
             return outcome;
-        switch (outcome.Type) {
+        switch (outcome.Kind) {
             default:
                 options.Logger.LogInformation(outcome.Message);
                 break;

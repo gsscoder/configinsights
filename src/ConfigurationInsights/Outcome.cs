@@ -13,7 +13,7 @@ namespace ConfigurationInsights
 
     public class Outcome
     {
-        public OutcomeType Type { get; private set; }
+        public OutcomeType Kind { get; private set; }
         
         public string Message { get; private set; }
 
@@ -23,7 +23,7 @@ namespace ConfigurationInsights
         {
             Guard.DisallowNull(nameof(message), message);
 
-            Type = type;
+            Kind = type;
             Message = message;
             MessageHint = string.Empty;
         }
