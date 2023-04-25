@@ -1,12 +1,16 @@
-RESTRICTION: == net6.0
+RESTRICTION: || (== net6.0) (== netcoreapp3.1)
 NUGET
   remote: https://api.nuget.org/v3/index.json
     CommandLineParser (2.9.1)
     FSharp.Core (4.7)
     Microsoft.Extensions.Logging.Abstractions (6.0.3)
+      System.Buffers (>= 4.5.1) - restriction: || (&& (== net6.0) (>= net461)) (== netcoreapp3.1)
+      System.Memory (>= 4.5.4) - restriction: || (&& (== net6.0) (>= net461)) (== netcoreapp3.1)
     Newtonsoft.Json (13.0.3)
-    SharpX (6.0.2)
+    SharpX (6.1)
       FSharp.Core (4.7)
+    System.Buffers (4.5.1) - restriction: || (&& (== net6.0) (>= net461)) (== netcoreapp3.1)
+    System.Memory (4.5.5) - restriction: || (&& (== net6.0) (>= net461)) (== netcoreapp3.1)
 
 GROUP specs
 RESTRICTION: == net6.0
@@ -32,7 +36,7 @@ NUGET
       Microsoft.NETCore.Platforms (>= 1.1)
     Newtonsoft.Json (13.0.1)
     NuGet.Frameworks (6.0)
-    SharpX (6.0.2)
+    SharpX (6.1)
       FSharp.Core (4.7)
     System.Collections.Immutable (6.0)
       System.Runtime.CompilerServices.Unsafe (>= 6.0)
