@@ -5,6 +5,7 @@ using System.Linq;
 using CommandLine;
 using ConfigurationInsights;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using SharpX;
 using SharpX.Extensions;
 
@@ -17,7 +18,7 @@ class ExitCodes
 class Program
 {
     readonly Options _options;
-    readonly ILogger _logger;
+    ILogger _logger;
 
     public Program(Options options)
     {
@@ -49,13 +50,20 @@ class Program
 
         if (!settings.Any())
             _logger.LogWarning("No settings to analyze. Nothing left to do");
-        _logger.LogInformation("Initiating settings analysis");
+        if (_options.OutputType != OutputType.Default) {
+            _logger = NullLogger.Instance;
+        }
         var analyzer = new SettingsAnalyzer(
             new AnalyzerOptions {
                 Logger = _logger,
                 EnableOkLogging = true,
                 EnableHintLogging = true });
         var result = analyzer.Analyze(settings);
+
+        if (_options.OutputType != OutputType.Default) {
+            var json = new ResultFormatter().FormatToJson(result, _options.OutputType == OutputType.JsonObfuscated);
+            Console.WriteLine(json);
+        }
 
         var hasError = result.SelectMany(x => x.Outcomes).Any(x => x.HasError());
 
@@ -76,8 +84,13 @@ class Program
     }
 
     static int Main(string[] args)
-    {
-        return Parser.Default.ParseArguments<Options>(args).MapResult(
+    {        
+        var parser = new Parser(settings => {
+            settings.CaseInsensitiveEnumValues = true;
+            settings.HelpWriter = Console.Error;
+        });
+
+        return parser.ParseArguments<Options>(args).MapResult(
             options => new Program(options).Run(), _ => Fail());
     }
 

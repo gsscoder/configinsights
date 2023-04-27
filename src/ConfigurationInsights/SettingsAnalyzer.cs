@@ -27,6 +27,8 @@ namespace ConfigurationInsights
                     new ConnectionStringAnalyzer(options)
                 })
                 .Concat(analyzers);
+
+            _logger.LogInformation("Initiating settings analysis");
         }
 
         public SettingsAnalyzer(AnalyzerOptions options)
