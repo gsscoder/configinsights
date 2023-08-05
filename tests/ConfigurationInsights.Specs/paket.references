@@ -5,3 +5,4 @@ group specs
     coverlet.collector
     FluentAssertions
     SharpX
+    Newtonsoft.Json
