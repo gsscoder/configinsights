@@ -11,7 +11,7 @@ public enum OutcomeType
     Critical
 }
 
-public class Outcome
+public record Outcome
 {
     public OutcomeType Kind { get; private set; }
     
