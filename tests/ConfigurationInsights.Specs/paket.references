@@ -3,6 +3,5 @@ group specs
     xunit
     xunit.runner.visualstudio
     coverlet.collector
-    FluentAssertions
     SharpX
     Newtonsoft.Json

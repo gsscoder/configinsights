@@ -1,4 +1,3 @@
-using FluentAssertions;
 using Xunit;
 
 namespace Outcomes.Utils;
@@ -12,7 +11,7 @@ public class PasswordUtilSpecs
     {
         var strength = PasswordUtil.Measure(value);
 
-        strength.Should().Be(PasswordStrength.VeryWeak);
+        Assert.Equal(PasswordStrength.VeryWeak, strength);
     }
 
     [Theory]
@@ -22,7 +21,7 @@ public class PasswordUtilSpecs
     {
         var strength = PasswordUtil.Measure(value);
 
-        strength.Should().Be(PasswordStrength.Weak);
+        Assert.Equal(PasswordStrength.Weak, strength);
     }
 
     [Theory]
@@ -31,7 +30,7 @@ public class PasswordUtilSpecs
     {
         var strength = PasswordUtil.Measure(value);
 
-        strength.Should().Be(PasswordStrength.Good);
+        Assert.Equal(PasswordStrength.Good, strength);
     }
 
     [Theory]
@@ -41,7 +40,7 @@ public class PasswordUtilSpecs
     {
         var strength = PasswordUtil.Measure(value);
 
-        strength.Should().Be(PasswordStrength.Strong);
+        Assert.Equal(PasswordStrength.Strong, strength);
     }
 
     [Theory]
@@ -50,6 +49,6 @@ public class PasswordUtilSpecs
     {
         var strength = PasswordUtil.Measure(value);
 
-        strength.Should().Be(PasswordStrength.VeryStrong);
+        Assert.Equal(PasswordStrength.VeryStrong, strength);
     }
 }
