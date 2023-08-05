@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Xunit;
 
-namespace Outcomes;
+namespace Outcomes.Utils;
 
 public class PasswordUtilSpecs
 {
