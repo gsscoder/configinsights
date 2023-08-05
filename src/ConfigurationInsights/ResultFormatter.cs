@@ -3,20 +3,19 @@ using System.Linq;
 using Newtonsoft.Json;
 using SharpX;
 
-namespace ConfigurationInsights
+namespace ConfigurationInsights;
+
+public class ResultFormatter
 {
-    public class ResultFormatter
+    public string FormatToJson(IEnumerable<SettingOutcome> outcomes, bool obfuscated = true)
     {
-        public string FormatToJson(IEnumerable<SettingOutcome> outcomes, bool obfuscated = true)
-        {
-            Guard.DisallowNull(nameof(outcomes), outcomes);
-            
-            if (!obfuscated)
-                return JsonConvert.SerializeObject(outcomes, Formatting.Indented);
+        Guard.DisallowNull(nameof(outcomes), outcomes);
+        
+        if (!obfuscated)
+            return JsonConvert.SerializeObject(outcomes, Formatting.Indented);
 
-            var outcomes_= outcomes.Select(x =>new SettingOutcome(x.Setting.Obfuscate(), x.Outcomes));
+        var outcomes_= outcomes.Select(x =>new SettingOutcome(x.Setting.Obfuscate(), x.Outcomes));
 
-            return JsonConvert.SerializeObject(outcomes_, Formatting.Indented);
-        }
+        return JsonConvert.SerializeObject(outcomes_, Formatting.Indented);
     }
 }

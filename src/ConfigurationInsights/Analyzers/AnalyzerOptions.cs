@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace ConfigurationInsights
+namespace ConfigurationInsights;
+
+public class AnalyzerOptions
 {
-    public class AnalyzerOptions
+    public AnalyzerOptions()
     {
-        public AnalyzerOptions()
-        {
-            Logger = NullLogger.Instance;
-        }
-
-        public ILogger Logger { get; set; }
-
-        public bool EnableOkLogging { get; set; }
-
-        public bool EnableHintLogging { get; set; }
+        Logger = NullLogger.Instance;
     }
+
+    public ILogger Logger { get; set; }
+
+    public bool EnableOkLogging { get; set; }
+
+    public bool EnableHintLogging { get; set; }
 }

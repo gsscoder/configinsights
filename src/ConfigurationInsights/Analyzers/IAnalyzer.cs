@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpX;
+﻿using System.Collections.Generic;
 
-namespace ConfigurationInsights.Analyzers
+namespace ConfigurationInsights.Analyzers;
+
+public interface IAnalyzer
 {
-    public interface IAnalyzer
-    {
-        public string Name { get;  }
+    public string Name { get;  }
 
-        public abstract bool CanAnalyze(Setting setting);
+    public abstract bool CanAnalyze(Setting setting);
 
-        public IEnumerable<Outcome> Analyze(Setting setting);
-    }
+    public IEnumerable<Outcome> Analyze(Setting setting);
 }
