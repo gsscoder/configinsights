@@ -21,7 +21,7 @@ class DefaultAnalyzer : Analyzer
         if (Strings.ContainsSpecialChar(setting.Name, excluded: new[] { '_', '-' }) ||
             Strings.ContainsWhitespace(setting.Name)) {
             outcomes.Add(new Outcome(OutcomeType.Warning,
-                message: $"{quotedName} contains not allowed special characters or whitespace") {
+                message: $"{quotedName} contains special characters or whitespace") {
                 MessageHint = "Avoid special characters and whitespace in names except '_' and '-'" }
             .Log(Options));
         }
