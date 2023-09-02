@@ -26,7 +26,7 @@ public class DefaultAnalyzerSpecs
             Assert.Equal(
                 new Outcome(OutcomeType.Warning, $"{settingName.Quote()} contains special characters or whitespace")
                 {
-                    MessageHint = "Avoid special characters and whitespace in names except '_' and '-'"
+                    MessageHint = "Try to avoid special characters and whitespace in names except '_' and '-'"
                 },
                 outcome);
         });

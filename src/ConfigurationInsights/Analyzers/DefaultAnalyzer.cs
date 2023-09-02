@@ -22,7 +22,7 @@ class DefaultAnalyzer : Analyzer
             Strings.ContainsWhitespace(setting.Name)) {
             outcomes.Add(new Outcome(OutcomeType.Warning,
                 message: $"{quotedName} contains special characters or whitespace") {
-                MessageHint = "Avoid special characters and whitespace in names except '_' and '-'" }
+                MessageHint = "Try to avoid special characters and whitespace in names except '_' and '-'" }
             .Log(Options));
         }
 
